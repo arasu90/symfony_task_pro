@@ -1,3 +1,10 @@
+
+View the document file more details
+
+User_Guide_Symfony_Project.docx
+
+
+
 composer create-project symfony/skeleton symfony_task
 
 cd symfony_task
