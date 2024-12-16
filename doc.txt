@@ -1,0 +1,551 @@
+Table of Content
+    Installation Step
+    Required Package
+    Important file changes
+    Execute Command
+    API List
+
+    Installation Step
+        composer create-project symfony/skeleton symfony_task
+
+        cd symfony_task
+
+    Required Package
+        composer require symfony/serializer symfony/routing symfony/http-foundation symfony/orm-pack doctrine/doctrine-migrations-bundle doctrine/dbal
+
+        composer require symfony/maker-bundle --dev
+
+        composer require symfony/validator
+
+    Important file changes
+        .env file
+            DATABASE_URL="mysql://{username}:{password}@{hostname}:3306/{database_name}"
+
+            Replace
+                db_username
+                db_password
+                db_hostname
+                database_name
+    Execute Command
+        php bin/console make:migration
+
+        php bin/console doctrine:migrations:migrate
+
+    API List:
+        get category List
+            GET : http://127.0.0.1:8000/category
+                Response:
+                    [
+                        {
+                            "id": 1,
+                            "category_name": "Category 1",
+                            "category_desc": "add category 1",
+                            "category_status": false
+                        },
+                        {
+                            "id": 2,
+                            "category_name": "Category 2",
+                            "category_desc": "add category 2",
+                            "category_status": true
+                        },
+                    ]
+
+        add new category
+            POST : http://127.0.0.1:8000/addcategory
+
+                Request: {
+                        "category_name":"Category 3",
+                        "category_status":1,
+                        "category_desc":"add category 3"
+                    }
+
+                Response:
+                    400:
+                        {
+                            "error": "Category name must be unique."
+                        }
+                    200:
+                        {
+                            "message": "Category created successfully",
+                            "data": {
+                                "id": 17,
+                                "category_name": "Category 3",
+                                "category_desc": "add Category 3",
+                                "category_status": true
+                            }
+                        }
+
+        get category data with id
+            GET : http://127.0.0.1:8000/category/1
+                Response:
+                    200: {
+                        "message": "Category fetched successfully",
+                        "data": {
+                            "id": 1,
+                            "category_name": "Category 1",
+                            "category_desc": "add category 1",
+                            "category_status": true
+                        }
+                    }
+                    404: {
+                        "error": "Category not found."
+                    }
+
+        update category data
+            PUT : http://127.0.0.1:8000/category/5
+                Request: {
+                        "category_name":"Category 3",
+                        "category_status":1,
+                        "category_desc":"add category 3"
+                    }
+                
+                Response:
+                    404 : {
+                        "error": "Category not found."
+                    }
+                    200 : {
+                        "message": "Category updated successfully",
+                        "data": {
+                            "id": 1,
+                            "category_name": "Category 5",
+                            "category_desc": "add category 5",
+                            "category_status": true
+                        }
+                    }
+
+        Delete category
+            DELETE : http://127.0.0.1:8000/category/1
+
+            Response : 
+                404 : {
+                    "error": "Category not found."
+                }
+                200 : {
+                    "message": "Category deleted successfully."
+                }
+
+
+        get Product List
+            GET : http://127.0.0.1:8000/product
+                Response:
+                    [
+                        {
+                            "id": 1,
+                            "product_name":"product 1",
+                            "product_desc":"product description",
+                            "product_price":"1.5",
+                            "product_qty":"30",
+                            "product_status":true,
+                            "product_category":"2"
+                        },
+                        {
+                            "id": 2,
+                            "product_name":"product 2",
+                            "product_desc":"product description",
+                            "product_price":"15",
+                            "product_qty":"20",
+                            "product_status":true,
+                            "product_category":"4"
+                        },
+                    ]
+
+        add new Product
+            POST : http://127.0.0.1:8000/addproduct
+
+                Request: {
+                    "product_name":"product 1",
+                    "product_desc":"product desc 1",
+                    "product_price":"3",
+                    "product_qty":"1",
+                    "product_status":"1",
+                    "product_category":"4"
+                }
+
+                Response:
+                    400:
+                        {
+                            "error": "Product name must be unique."
+                        }
+                    200:
+                        {
+                            "message": "Product created successfully",
+                            "data": {
+                                "id": 1,
+                                "product_name":"product 1",
+                                "product_desc":"product desc 1",
+                                "product_price":"3",
+                                "product_qty":"1",
+                                "product_status": true,
+                                "product_category":"4"
+                            }
+                        }
+
+        get Product data with id
+            GET : http://127.0.0.1:8000/product/1
+                Response:
+                    200: {
+                        "message": "Product fetched successfully",
+                        "data": {
+                            "id": 1,
+                            "product_name":"product 1",
+                            "product_desc":"product desc 1",
+                            "product_price":"3",
+                            "product_qty":"1",
+                            "product_status":true,
+                            "product_category":"4" 
+                        }
+                    }
+                    404: {
+                        "error": "Product not found."
+                    }
+
+        update Product data
+            PUT : http://127.0.0.1:8000/product/5
+                Request: {
+                        "product_name":"product 1",
+                        "product_desc":"product description",
+                        "product_price":"1.5",
+                        "product_qty":"30",
+                        "product_status":"1",
+                        "product_category":"2"
+                    }
+                
+                Response:
+                    404 : {
+                        "error": "Product not found."
+                    }
+                    200 : {
+                        "message": "Product updated successfully",
+                        "data": {
+                            "id": 5,
+                            "product_name": "product 1",
+                            "product_desc": "product description",
+                            "product_price": 1.5,
+                            "product_qty": 30,
+                            "product_category": 2,
+                            "product_status": true
+                        }
+                    }
+
+        Delete Product
+            DELETE : http://127.0.0.1:8000/product/1
+
+            Response : 
+                404 : {
+                    "error": "Product not found."
+                }
+                200 : {
+                    "message": "Product deleted successfully."
+                }
+
+
+        get Customer List
+            GET : http://127.0.0.1:8000/customer
+                Response:
+                    [
+                        {
+                            "id": 1,
+                        "customer_name": "Customer 1",
+                            "customer_email": "mail@gmail.com",
+                            "customer_address": "Bangalore",
+                            "customer_mobile": "9876543210",
+                            "customer_status": true
+                        },
+                        {
+                            "id": 2,
+                            "customer_name": "Customer 2",
+                            "customer_email": "testmail@gmail.com",
+                            "customer_address": "Bangalore",
+                            "customer_mobile": "9876543210",
+                            "customer_status": true
+                        },
+                    ]
+
+        add new Customer
+            POST : http://127.0.0.1:8000/addcustomer
+
+                Request: {
+                    "customer_name": "Customer 1",
+                    "customer_email": "mail@gmail.com",
+                    "customer_address": "Bangalore",
+                    "customer_mobile": "9876543210",
+                    "customer_status": 1
+                }
+
+                Response:
+                    400:
+                        {
+                            "error": "Customer name must be unique."
+                        }
+                    200:
+                        {
+                            "message": "Customer created successfully",
+                            "data": {
+                                "id": 1,
+                                "customer_name": "Customer 1",
+                                "customer_email": "mail@gmail.com",
+                                "customer_address": "Bangalore",
+                                "customer_mobile": "9876543210",
+                                "customer_status": true
+                            }
+                        }
+
+        get Customer data with id
+            GET : http://127.0.0.1:8000/customer/1
+                Response:
+                    200: {
+                        "message": "Customer fetched successfully",
+                        "data": {
+                            "id": 1,
+                            "customer_name": "Customer 1",
+                            "customer_email": "mail@gmail.com",
+                            "customer_address": "Bangalore",
+                            "customer_mobile": "9876543210",
+                            "customer_status": true
+                        }
+                    }
+                    404: {
+                        "error": "Customer not found."
+                    }
+
+        update Customer data
+            PUT : http://127.0.0.1:8000/customer/1
+                Request: {
+                        "customer_name": "Customer 1",
+                        "customer_email": "test@gmail.com",
+                        "customer_address": "Bangalore",
+                        "customer_mobile": "9876543210",
+                        "customer_status": 0
+                    }
+                
+                Response:
+                    404 : {
+                        "error": "Customer not found."
+                    }
+                    200 : {
+                        "message": "Customer updated successfully",
+                        "data": {
+                            "id": 1,
+                            "customer_name": "Customer 1",
+                            "customer_email": "test@gmail.com",
+                            "customer_address": "Bangalore",
+                            "customer_mobile": "9876543210",
+                            "customer_status": false
+                        }
+                    }
+
+        Delete Customer
+            DELETE : http://127.0.0.1:8000/customer/1
+
+            Response : 
+                404 : {
+                    "error": "Customer not found."
+                }
+                200 : {
+                    "message": "Customer deleted successfully."
+                }
+
+        Add to cart
+            POST : http://127.0.0.1:8000/add_to_cart
+
+                Request:
+                    {
+                        "customer_id":"1",
+                        "product_id":"2",
+                        "product_qty":"3"
+                    }
+                Response: 
+                    200:
+                        {
+                            "message": "Your product added to cart "
+                        }
+                    404:
+                        {
+                            "error": "Invalid Customer ID"
+                        }
+
+
+        View to cart
+            DELETE : http://127.0.0.1:8000/view_cart
+
+                Request:
+                    {
+                        "customer_id":"1"
+                    }
+                Response: 
+                    200:
+                        {
+                            "message": "Available Cart Data",
+                            "data": {
+                                "customer_name": "Customer 1",
+                                "customer_id": 1,
+                                "cart_data": [
+                                    {
+                                        "cart_id": 9,
+                                        "product_name": "Samsung M20",
+                                        "product_qty": 3,
+                                        "product_price": "16999.00",
+                                        "sub_total": "50997.00",
+                                        "discount_per": "10.00",
+                                        "discount_amt": "5099.70",
+                                        "total_amt": "45897.30",
+                                        "tax_per": 5,
+                                        "tax_amt": "2294.87",
+                                        "net_total": "48192.17",
+                                        "order_status": 1
+                                    }
+                                ]
+                            }
+                        }
+                    404:
+                        {
+                            "error": "Invalid Customer ID"
+                        }
+
+        Remove Cart Data
+            POST : http://127.0.0.1:8000/remove_cart
+
+                Request:
+                    {
+                        "customer_id":"1",
+                        "cart_id":"1"
+                    }
+                Response: 
+                    200:
+                        {
+                            "message": "Your cart data removed"
+                        }
+                    404:
+                        {
+                            "error": "Invalid Customer ID and Cart ID"
+                        }
+
+        Place Order By Customer
+            POST : http://127.0.0.1:8000/place_order
+
+                Request:
+                    {
+                        "customer_id":"1",
+                        "payment_method":"cash"
+                    }
+                Response: 
+                    200:
+                        {
+                            "message": "Your order placed"
+                        }
+                    404:
+                        {
+                            "error": "Invalid Customer ID"
+                        }
+
+        View My Order By Customer
+            POST : http://127.0.0.1:8000/view_my_order/1
+                Response: 
+                    200:
+                        [
+                            {
+                                "customer_name": "Customer 1",
+                                "OrderId": 62,
+                                "sub_total": "102356.01",
+                                "discount_amt": "10199.40",
+                                "total_amt": "92156.61",
+                                "total_tax_amt": "4589.74",
+                                "net_total": "96746.35",
+                                "order_date": {
+                                    "date": "2024-12-15 00:00:00.000000",
+                                    "timezone_type": 3,
+                                    "timezone": "UTC"
+                                },
+                                "cart_items": [
+                                    {
+                                        "OrderId": 62,
+                                        "product_name": "Gorila glass",
+                                        "product_qty": 3,
+                                        "product_price": "120.67",
+                                        "sub_total": "362.01",
+                                        "discount_per": "0.00",
+                                        "discount_amt": "0.00",
+                                        "total_amt": "362.01",
+                                        "tax_per": 0,
+                                        "tax_amt": "0.00",
+                                        "net_total": "362.01"
+                                    },
+                                    {
+                                        "OrderId": 62,
+                                        "product_name": "Samsung M20",
+                                        "product_qty": 3,
+                                        "product_price": "16999.00",
+                                        "sub_total": "50997.00",
+                                        "discount_per": "10.00",
+                                        "discount_amt": "5099.70",
+                                        "total_amt": "45897.30",
+                                        "tax_per": 5,
+                                        "tax_amt": "2294.87",
+                                        "net_total": "48192.17"
+                                    }
+                                ]
+                            },
+                            {
+                                "customer_name": "Customer 1",
+                                "OrderId": 450,
+                                "sub_total": "50997.00",
+                                "discount_amt": "5099.70",
+                                "total_amt": "45897.30",
+                                "total_tax_amt": "2294.87",
+                                "net_total": "48192.17",
+                                "order_date": {
+                                    "date": "2024-12-15 00:00:00.000000",
+                                    "timezone_type": 3,
+                                    "timezone": "UTC"
+                                },
+                                "cart_items": [
+                                    {
+                                        "OrderId": 450,
+                                        "product_name": "Samsung M20",
+                                        "product_qty": 3,
+                                        "product_price": "16999.00",
+                                        "sub_total": "50997.00",
+                                        "discount_per": "10.00",
+                                        "discount_amt": "5099.70",
+                                        "total_amt": "45897.30",
+                                        "tax_per": 5,
+                                        "tax_amt": "2294.87",
+                                        "net_total": "48192.17"
+                                    }
+                                ]
+                            },
+                            {
+                                "customer_name": "Customer 1",
+                                "OrderId": 250,
+                                "sub_total": "50997.00",
+                                "discount_amt": "5099.70",
+                                "total_amt": "45897.30",
+                                "total_tax_amt": "2294.87",
+                                "net_total": "48192.17",
+                                "order_date": {
+                                    "date": "2024-12-15 00:00:00.000000",
+                                    "timezone_type": 3,
+                                    "timezone": "UTC"
+                                },
+                                "cart_items": [
+                                    {
+                                        "OrderId": 250,
+                                        "product_name": "Samsung M20",
+                                        "product_qty": 3,
+                                        "product_price": "16999.00",
+                                        "sub_total": "50997.00",
+                                        "discount_per": "10.00",
+                                        "discount_amt": "5099.70",
+                                        "total_amt": "45897.30",
+                                        "tax_per": 5,
+                                        "tax_amt": "2294.87",
+                                        "net_total": "48192.17"
+                                    }
+                                ]
+                            }
+                        ]
+                    404:
+                        {
+                            "error": "Invalid Customer ID"
+                        }
+

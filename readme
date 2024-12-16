@@ -1,0 +1,16 @@
+composer create-project symfony/skeleton symfony_task
+
+cd symfony_task
+
+**** Required Package ****
+composer require symfony/serializer symfony/routing symfony/http-foundation symfony/orm-pack doctrine/doctrine-migrations-bundle doctrine/dbal
+
+composer require symfony/maker-bundle --dev
+
+composer require symfony/validator
+
+**** DB Table migrations ****
+
+php bin/console make:migration
+
+php bin/console doctrine:migrations:migrate
